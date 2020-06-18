@@ -21,47 +21,30 @@ class App extends Component {
         "Mauricio"
       ]
     }
+    this.trashClickHandler = this.trashClickHandler.bind(this)
   }
+
+  trashClickHandler(event){
+    console.log("trash")
+    let userIndex = event.target.dataset.userKey
+    let usersList = this.state.usersList
+    usersList.splice(userIndex,1)
+    this.setState({usersList})
+  }
+
   render() {
     return (
       <div className="App">
-        <nav className="navbar navbar-light bg-light">
-          <span className="navbar-brand mb-0 h1">Navbar</span>
-        </nav>
-        <Router>
-          <div className="container">
-            <div className="row">
-              <div className="col-12 col-md-3">
-                <ul className="list-group">
-                  <li className="list-group-item list-group-item-dark">
-                    <Link to="/about">About</Link>
-                  </li>
-                  <li className="list-group-item list-group-item-dark">
-                    <Link to="/home">Home</Link>
-                  </li>
-                  <li className="list-group-item list-group-item-dark">
-                    <Link to="/users">Users</Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-12 col-md-9">
-                <Switch>
-                  <Route path="/about">
-                    <About
-                      users={this.state.usersList}
-                    />
-                  </Route>
-                  <Route path="/users">
-                    <Users />
-                  </Route>
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </div>
-            </div>
-          </div>
-        </Router>
+        {
+          this.state.usersList.map( (user, index) => {
+            return <About 
+                    name= {user}
+                    trashClickHandler = {this.trashClickHandler}
+                    userKey = {index}
+                  />
+          })
+        }
+        
 
       </div>
     );
